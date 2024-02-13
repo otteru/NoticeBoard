@@ -7,3 +7,12 @@
 - home이랑 logIn html 서버로 여는 것 하던 중...
 - 지금은 우선 html 파일 여는 것은 아직 안됐고 그냥 html 직접 바로 보내서 여는 것만 하고 있다.
 - 다음에 경로들 여는 거랑 ejs까지 해보자.
+
+- 로보토 불러오기
+- shared.css 적용
+
+240213
+- 로그인 html 창 밑에껄로 만듦
+https://deblisher.tistory.com/entry/html%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC%9D%B4%EC%A7%80-%EB%A7%8C%EB%93%A4%EA%B8%B0-form-label-input
+- css, js 파일 가져오고 연결되게 만듦
+- 다음에는 데이터 입력하고 받아오게 하자.
