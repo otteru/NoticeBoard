@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="styles/shared.css" />
+		<link rel="stylesheet" href="styles/sign.css" />
+		<link rel="stylesheet" href="styles/signUp.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<main>
+			<!-- <h1>logIn.html</h1>
+			<a href="/home">click</a> -->
+			<!-- 앞에 '/'는 절대경로 의미(도메인 뒤에 추가됨), 
+			'/'없으면 현재 url 뒤에 추가됨 -->
+			
+			<div class="login-wrapper">
+				<h2>SignUp</h2>
+				<form action="/signUp" method="POST" id="login-form">
+					<input type="text" name="userName" placeholder="Email" required/>
+					<input type="password" name="userPassword" placeholder="Password" required/>
+					<input type="password" name="userPasswordCheck" placeholder="PasswordCheck" required/>
+					<label for="remember-check">
+						<input type="checkbox" id="remember-check" />아이디 저장하기
+					</label>
+					<input type="submit" value="signUp">
+				</form>
+			</div>
+		</main>
+	</body>
+</html>
