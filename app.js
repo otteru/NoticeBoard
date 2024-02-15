@@ -21,10 +21,40 @@ app.get("/", function(req,res) {
 	res.sendFile(htmlFilePath);
 });
 
+app.post("/", function(req, res) {
+	const user = req.body;
+	
+	const filePath = path.join(__dirname, "data", "users.json");
+	
+	const fileData = fs.readFileSync(filePath);
+	const storedUsers = JSON.parse(fileData);
+	
+	//1. 이메일 존재 확인
+	let isDuplicate = false;
+	let i = 0;
+	for (i = 0; i<storedUsers.length; i++) {
+		if(storedUsers[i].userName === user.userName) {
+			isDuplicate = true;
+			break;
+		}
+	}
+	
+	if(isDuplicate){
+		if(storedUsers[i].userPassword == user.userPassword){
+			res.redirect("/home");
+		}else{
+			res.redirect("/?error=password");
+		}
+	}else{
+		res.redirect("/?error=email");
+	}
+})
+
 app.get("/signUp", function(req, res) {
 	const htmlFilePath = path.join(__dirname, "views", "signUp.html");
 	res.sendFile(htmlFilePath);
 });
+
 
 app.post("/signUp", function(req, res){
 	const user = req.body;
@@ -44,29 +74,28 @@ app.post("/signUp", function(req, res){
 	}
 	
 	if(isDuplicate) {
-		res.send("<script>alert('중복된 아이디 입니다.');</script>");
-		res.redirect("/signUp");
+		res.redirect("/signUp?error=duplicate");
+	} else if(user.userPassword !== user.userPasswordCheck){
+		//2. 비번 더블체크
+		res.redirect("/signUp?error=passCheck");
+	}else{
+		// userPasswordCheck는 데이터에 넣지 않기 위해 새로운 객체를 만들어서 넣는 것
+		const newUser = {
+			userName : user.userName,
+			userPassword : user.userPassword
+		};
+			
+		storedUsers.push(newUser);
+			 
+		fs.writeFileSync(filePath, JSON.stringify(storedUsers));
+			
+		res.redirect("/");
 	}
-	
-	//2. 비번 더블체크
-	if(user.userPassword !== user.userPasswordCheck){
-		
-		res.redirect("/signUp");
-	}
-	
-	storedUsers.push(user);
-	 
-	fs.writeFileSync(filePath, JSON.stringify(storedUsers));
-	
-	res.redirect("/");
 });
-
 
 app.get("/home", function(req, res) {
 	const htmlFilePath = path.join(__dirname, "views", "home.html");
 	res.sendFile(htmlFilePath);
 });
-
-
 
 app.listen(3000);  

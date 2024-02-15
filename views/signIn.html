@@ -9,12 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 	</head>
 	<body>
+		<script>
+			if(window.location.search.includes("error=email")) {
+				alert('존재하지 않는 이메일 입니다.');
+			}else if(window.location.search.includes("error=password")) {
+				alert('비번이 틀렸습니다.');
+			}
+		</script>
 		<main>
-			<!-- <h1>logIn.html</h1>
-			<a href="/home">click</a> -->
-			<!-- 앞에 '/'는 절대경로 의미(도메인 뒤에 추가됨), 
-			'/'없으면 현재 url 뒤에 추가됨 -->
-			
 			<div class="login-wrapper">
 				<h2>SignIn</h2>
 				<form action="/" method="POST" id="login-form">
