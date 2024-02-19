@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="styles/shared.css" />
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+		
+	</head>
+	<body>
+		<main>
+			<div class="Input-wrapper">
+				<h2>Share your Idea!</h2>
+				<form action="/write" method="POST">
+					<div class="form-control">
+						<label for="title">Title</label>
+						<input type="text" id="title" name="title" placeholder="Title" required />
+					</div>
+					<div class="form-control">
+						<label for="mainText">Main-Text</label>
+						<textarea
+							name="mainText"
+							id="mainText"
+							row="5"
+							placeholder="Main-Text"
+							required>
+						</textarea>
+					</div>
+					<div class="form-control">
+						<input type="submit" value="submit">
+					</div>
+				</form>
+			</div>
+			
+		</main>
+	</body>
+</html>

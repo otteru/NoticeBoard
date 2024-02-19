@@ -17,6 +17,9 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 // POST 요청의 본문 해석하기 위한 미들웨어
 
+let isSignIn = false;
+let member = "";
+
 app.get("/", function(req,res) {
 	// const htmlFilePath = path.join(__dirname, "views", "signIn.html");
 	// res.sendFile(htmlFilePath); --> ejs를 사용하지 않았을 때의 코드
@@ -49,6 +52,8 @@ app.post("/", function(req, res) {
 	
 	if(isDuplicate){
 		if(storedUsers[i].userPassword == user.userPassword){
+			isSignIn = true;
+			member = user.userName; 
 			res.redirect("/home");
 		}else{
 			res.redirect("/?error=password");
@@ -108,5 +113,28 @@ app.get("/write", function(req, res) {
 	res.render("write");
 });
 
+app.post("/write", function(req, res) {
+	const post = req.body;
+	
+	const filePath = path.join(__dirname, "data", "posts.json");
+	
+	const fileData = fs.readFileSync(filePath);
+	const storedUsers = JSON.parse(fileData);
+	
+	const currentDate = new Date();
+
+	const newPost = {
+		title : post.title,
+		author : member,
+		time: currentDate,
+		mainText : post.mainText
+		};
+	storedUsers.push(newPost);
+	 
+	fs.writeFileSync(filePath, JSON.stringify(newPost));
+	
+	res.redirect("/home");
+	
+})
 
 app.listen(3000);  
