@@ -11,22 +11,20 @@
 		<main>
 			<h1>home.html</h1>
 			<a href="/write">게시글 작성하기</a>
-			
-			<h1>Posts</h1>
-			<% if (numberOfRestaurants === 0) { %>
-			<p>Unfortunately, we have no posts yet - maybe write posts some?</p>
+			<% if (numberOfPosts === 0) { %>
+				<p>Unfortunately, we have no posts yet - maybe write some posts?</p>
 			<% } else { %>
-			<p>explore the posts</p>
-			<p>We have <%= numberOfRestaurants %> posts.</p>
-			<form action="/restaurants" method="GET">
-				<input type="hidden" value="<%= nextOrder %>" name="order">
-				<button class="btn">Change Order</button>
-			</form>
-			<ul id="restaurants-list">
-				<% for (const restaurant of restaurants) { %>
-					<%- include("includes/restaurants/restaurant-item", {restaurant: restaurant}) %>
-				<% } %>
-			</ul>
+				<p>Explore Posts!!</p>
+				<p>We found <%= numberOfPosts %> posts.</p>
+				<form action="/home" method="GET">
+					<input type="hidden" value="<%= nextOrder %>" name="order">
+					<button class="btn">Change Order</button>
+				</form>
+				<ul id="posts-list">
+					<% for (const post of posts) { %>
+						<%- include("includes/posts-item", {post: post}) %>
+					<% } %>
+				</ul>
 			<% } %>
 		</main>
 	</body>

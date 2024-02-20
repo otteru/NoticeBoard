@@ -2,6 +2,12 @@
 -비번 저장 암호화
 - 사용자 찾는거 자료구조
 
+240220
+- 우선적으로 글을 노출할 수 있는 ejs를 하나 만들자.
+- 시간을 기준으로 오름차순 내림차순
+- 오늘 home 글 노출, 오름차순 나열, 클릭 했을 때 글 본문으로 들어가게 하기
+- 내일 로그아웃, 글 삭제, 되면 댓글
+
 240219
 - 제목, 작성자, 쓴 날짜, 내용 정도로 저장 해놓고 불러올때 
 - 1. 글 저장하는 페이지 만들고 나서 불러오는 페이지를 만들자.
@@ -39,3 +45,10 @@ https://deblisher.tistory.com/entry/html%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC
 
 
 
+
+
+
+				
+<!-- <div class="restaurant-actions">
+		<a href="/restaurants/<%= restaurant.id %>">View Restaurant</a>
+	</div> -->

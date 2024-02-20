@@ -106,7 +106,35 @@ app.post("/signUp", function(req, res){
 });
 
 app.get("/home", function(req, res) {
-	res.render("home");
+	const filePath = path.join(__dirname, "data", "posts.json");
+	
+	const fileData = fs.readFileSync(filePath);
+	const storedPosts = JSON.parse(fileData);
+	
+	let order = req.query.order;
+	let nextOrder = "desc";
+	
+	if(order !== "asc"  && order !== "desc"){
+		order = "asc";
+	}
+	
+	if(order === "desc"){
+		nextOrder = "asc";
+	}
+	
+	storedPosts.sort(function(resA, resB) {
+		if((order === "asc" && resA.time > resB.time)||
+		  (order === "desc" && resB.time > resA.time)){
+			return 1;
+		}
+		return -1;
+	})
+	
+	res.render("home", {
+		numberOfPosts: storedPosts.length,
+		posts: storedPosts,
+		nextOrder : nextOrder
+	});
 });
 
 app.get("/write", function(req, res) {
@@ -119,7 +147,7 @@ app.post("/write", function(req, res) {
 	const filePath = path.join(__dirname, "data", "posts.json");
 	
 	const fileData = fs.readFileSync(filePath);
-	const storedUsers = JSON.parse(fileData);
+	const storedPosts = JSON.parse(fileData);
 	
 	const currentDate = new Date();
 
@@ -129,9 +157,10 @@ app.post("/write", function(req, res) {
 		time: currentDate,
 		mainText : post.mainText
 		};
-	storedUsers.push(newPost);
+	
+	storedPosts.push(newPost);
 	 
-	fs.writeFileSync(filePath, JSON.stringify(newPost));
+	fs.writeFileSync(filePath, JSON.stringify(storedPosts));
 	
 	res.redirect("/home");
 	
