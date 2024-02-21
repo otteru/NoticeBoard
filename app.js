@@ -2,6 +2,7 @@ const fs = require("fs");
 // file 편집하기 위한 file system.
 const path = require("path");
 // path는 따로 패키지가 아니라 node.js에 기본적으로 있는 거다.
+const uuid =require("uuid");
 
 const express = require("express");
 
@@ -137,6 +138,24 @@ app.get("/home", function(req, res) {
 	});
 });
 
+app.get("/home/:id", function (req, res) {
+	const postId = req.params.id;
+	
+	const filePath = path.join(__dirname, "data", "posts.json");
+	
+	const fileData = fs.readFileSync(filePath);
+	const storedPosts = JSON.parse(fileData);
+	
+	for(const post of storedPosts) {
+		if(post.id== postId) {
+			return res.render("post-detail", {post: post});
+		}
+	}
+	
+	// res.status(404).render('404');
+	
+});
+
 app.get("/write", function(req, res) {
 	res.render("write");
 });
@@ -155,7 +174,8 @@ app.post("/write", function(req, res) {
 		title : post.title,
 		author : member,
 		time: currentDate,
-		mainText : post.mainText
+		mainText : post.mainText,
+		id : uuid.v4()
 		};
 	
 	storedPosts.push(newPost);
@@ -165,5 +185,7 @@ app.post("/write", function(req, res) {
 	res.redirect("/home");
 	
 })
+
+
 
 app.listen(3000);  

@@ -2,6 +2,11 @@
 -비번 저장 암호화
 - 사용자 찾는거 자료구조
 
+240221
+- 우선 글 본문 들어가게 만들자. -> uuid랑 뭐 해서 만듦
+- 이제 로그아웃
+
+
 240220
 - 우선적으로 글을 노출할 수 있는 ejs를 하나 만들자.
 - 시간을 기준으로 오름차순 내림차순
@@ -49,6 +54,5 @@ https://deblisher.tistory.com/entry/html%EB%A1%9C%EA%B7%B8%EC%9D%B8-%ED%8E%98%EC
 
 
 				
-<!-- <div class="restaurant-actions">
-		<a href="/restaurants/<%= restaurant.id %>">View Restaurant</a>
-	</div> -->
+
+	
