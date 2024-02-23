@@ -6,6 +6,9 @@ const uuid =require("uuid");
 
 const express = require("express");
 
+const defaultRoutes = require("./routes/default");
+const postsRoutes = require("./routes/posts");
+
 const app = express();
 
 app.set("views", path.join(__dirname, "views"));
@@ -21,171 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 let isSignIn = false;
 let member = "";
 
-app.get("/", function(req,res) {
-	// const htmlFilePath = path.join(__dirname, "views", "signIn.html");
-	// res.sendFile(htmlFilePath); --> ejs를 사용하지 않았을 때의 코드
-	
-	const filePath = path.join(__dirname, "data", "users.json");
-	
-	const fileData = fs.readFileSync(filePath);
-	const storedUsers = JSON.parse(fileData);
-	
-	res.render("signIn", {numberOfUsers: storedUsers.length});
-});
+app.use("/", defaultRoutes);
 
-app.post("/", function(req, res) {
-	const user = req.body;
-	
-	const filePath = path.join(__dirname, "data", "users.json");
-	
-	const fileData = fs.readFileSync(filePath);
-	const storedUsers = JSON.parse(fileData);
-	
-	//1. 이메일 존재 확인
-	let isDuplicate = false;
-	let i = 0;
-	for (i = 0; i<storedUsers.length; i++) {
-		if(storedUsers[i].userName === user.userName) {
-			isDuplicate = true;
-			break;
-		}
-	}
-	
-	if(isDuplicate){
-		if(storedUsers[i].userPassword == user.userPassword){
-			isSignIn = true;
-			member = user.userName; 
-			res.redirect("/home");
-		}else{
-			res.redirect("/?error=password");
-		}
-	}else{
-		res.redirect("/?error=email");
-	}
-})
-
-app.get("/signUp", function(req, res) {
-	res.render("signUp");
-});
-
-
-app.post("/signUp", function(req, res){
-	const user = req.body;
-	
-	const filePath = path.join(__dirname, "data", "users.json");
-	
-	const fileData = fs.readFileSync(filePath);
-	const storedUsers = JSON.parse(fileData);
-	
-	//1. 이메일 중복 체크
-	let isDuplicate = false;
-	for (let i=0; i<storedUsers.length; i++) {
-		if(storedUsers[i].userName === user.userName) {
-			isDuplicate = true;
-			break;
-		}
-	}
-	
-	if(isDuplicate) {
-		res.redirect("/signUp?error=duplicate");
-	} else if(user.userPassword !== user.userPasswordCheck){
-		//2. 비번 더블체크
-		res.redirect("/signUp?error=passCheck");
-	}else{
-		// userPasswordCheck는 데이터에 넣지 않기 위해 새로운 객체를 만들어서 넣는 것
-		const newUser = {
-			userName : user.userName,
-			userPassword : user.userPassword
-		};
-			
-		storedUsers.push(newUser);
-			 
-		fs.writeFileSync(filePath, JSON.stringify(storedUsers));
-			
-		res.redirect("/");
-	}
-});
-
-app.get("/home", function(req, res) {
-	const filePath = path.join(__dirname, "data", "posts.json");
-	
-	const fileData = fs.readFileSync(filePath);
-	const storedPosts = JSON.parse(fileData);
-	
-	let order = req.query.order;
-	let nextOrder = "desc";
-	
-	if(order !== "asc"  && order !== "desc"){
-		order = "asc";
-	}
-	
-	if(order === "desc"){
-		nextOrder = "asc";
-	}
-	
-	storedPosts.sort(function(resA, resB) {
-		if((order === "asc" && resA.time > resB.time)||
-		  (order === "desc" && resB.time > resA.time)){
-			return 1;
-		}
-		return -1;
-	})
-	
-	res.render("home", {
-		numberOfPosts: storedPosts.length,
-		posts: storedPosts,
-		nextOrder : nextOrder
-	});
-});
-
-app.get("/home/:id", function (req, res) {
-	const postId = req.params.id;
-	
-	const filePath = path.join(__dirname, "data", "posts.json");
-	
-	const fileData = fs.readFileSync(filePath);
-	const storedPosts = JSON.parse(fileData);
-	
-	for(const post of storedPosts) {
-		if(post.id== postId) {
-			return res.render("post-detail", {post: post});
-		}
-	}
-	
-	// res.status(404).render('404');
-	
-});
-
-app.get("/write", function(req, res) {
-	res.render("write");
-});
-
-app.post("/write", function(req, res) {
-	const post = req.body;
-	
-	const filePath = path.join(__dirname, "data", "posts.json");
-	
-	const fileData = fs.readFileSync(filePath);
-	const storedPosts = JSON.parse(fileData);
-	
-	const currentDate = new Date();
-
-	const newPost = {
-		title : post.title,
-		author : member,
-		time: currentDate,
-		mainText : post.mainText,
-		id : uuid.v4()
-		};
-	
-	storedPosts.push(newPost);
-	 
-	fs.writeFileSync(filePath, JSON.stringify(storedPosts));
-	
-	res.redirect("/home");
-	
-})
-
-
+app.use("/", postsRoutes);
 
 app.listen(3000);  

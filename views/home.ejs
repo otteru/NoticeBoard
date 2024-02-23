@@ -9,13 +9,13 @@
 	</head>
 	<body>
 		<main>
-			<h1>home.html</h1>
+			<h1>Welcome <%= userId %> !!</h1>
 			<a href="/write">게시글 작성하기</a>
 			<% if (numberOfPosts === 0) { %>
-				<p>Unfortunately, we have no posts yet - maybe write some posts?</p>
+				<p class="explain">Unfortunately, we have no posts yet - maybe write some posts?</p>
 			<% } else { %>
-				<p>Explore Posts!!</p>
-				<p>We found <%= numberOfPosts %> posts.</p>
+				<p class="explain">Explore Posts!!</p>
+				<p class="explain">We found <%= numberOfPosts %> posts.</p>
 				<form action="/home" method="GET">
 					<input type="hidden" value="<%= nextOrder %>" name="order">
 					<button class="btn">Change Order</button>
@@ -26,6 +26,9 @@
 					<% } %>
 				</ul>
 			<% } %>
+			<form action="/logOut" method="POST">
+				 <button type="submit">LogOut</button>
+			</form>
 		</main>
 	</body>
 </html>

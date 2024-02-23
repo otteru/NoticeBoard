@@ -1,3 +1,27 @@
 h1{
 	color: blue;
 }
+
+button {
+	color: #fff;
+    font-size: 16px;
+    background-color: #6A24FE;
+    margin-top: 20px;
+	border-radius: 4px;
+	padding: 0.5rem 1.5rem;
+	box-sizing: border-box;
+}
+
+a{
+	border-radius: 4px;
+	color: white;
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	background-color: #6A24FE;
+}
+
+.explain {
+	font-weight : bold;
+	font-size: 20px;
+}
